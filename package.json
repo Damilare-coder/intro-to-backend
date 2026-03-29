@@ -1,0 +1,22 @@
+{
+  "name": "intro-to-backend",
+  "version": "1.0.0",
+  "description": "first backend learning",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Damilare-coder/intro-to-backend.git"
+  },
+  "license": "ISC",
+  "author": "Damilare",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^4.21.1",
+    "mongoose": "^7.3.1"
+  }
+}
