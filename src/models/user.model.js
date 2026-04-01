@@ -1,17 +1,17 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
-const userSchema = new Schema (
+const userSchema = new Schema(
     {
         username: {
             type: String,
             required: true,
             unique: true,
             lowercase: true,
-            trim: true,  // "lil y" will be trimmed to lily
+            trim: true,
             minLength: 1,
             maxLength: 30
         },
-
         password: {
             type: String,
             required: true,
@@ -30,6 +30,20 @@ const userSchema = new Schema (
     {
         timestamps: true
     }
-)
+);
 
-export const User = mongoose.model("User", userSchema)
+// Hash password before saving (Mongoose 7+ style)
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) {
+        return;
+    }
+
+    this.password = await bcrypt.hash(this.password, 10);
+});
+
+// compare
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
+
+export const User = mongoose.model("User", userSchema);
